@@ -1,9 +1,8 @@
 package client;
 
 public class BinaryPattern {
-    
+//Recursion and Backtracking
     public static void print(char[] str, int index) {
-        //Recursion and Backtracking
         if(index == str.length) {
             System.out.println(str);
             return;
@@ -22,10 +21,65 @@ public class BinaryPattern {
             print(str, index+1);
         }
     }
-    
     public static void main(String args[]){
        String str = "1??0?101";
        char[] s = str.toCharArray();
        print(s,0);
+    }
+}
+
+
+//solution 2
+package client;
+import java.util.LinkedList;
+import java.util.Queue;
+// using Queue
+public class BinaryPattern_Queue {
+    public static void print(String str) {
+        Queue<String> q = new LinkedList<>();
+        q.add(str);
+        //loop
+        while(!q.isEmpty()) { //o(n)
+            str = q.remove();
+            int index = str.indexOf('?'); //first occurence of ?
+            if(index!=-1) {
+                str = str.substring(0,index)+"0"+str.substring(index+1);
+                q.add(str);
+                str = str.substring(0,index)+"1"+str.substring(index+1);
+                q.add(str);
+            }
+            else {
+                System.out.println(str);
+            }
+        }
+    }
+    public static void main(String args[]){
+       String str = "1??0?101";
+       print(str);
+    }
+}
+
+
+//solution 3
+package client;
+import java.util.ArrayList;
+//using Recursion
+public class BinaryPattern_Recursion {
+    static ArrayList<String> result = new ArrayList<String>();
+    public static void pattern(String str) { 
+        if(str.indexOf("?")!=-1) {                    //o(1)
+            String s1 = str.replaceFirst("\\?","0");
+            String s2 = str.replaceFirst("\\?","1");
+            pattern(s1);
+            pattern(s2);
+        }
+        else {
+            result.add(str);
+        }
+    }
+    
+    public static void main(String args[]){ 
+       pattern("1??0?101");
+       System.out.println(result);
     }
 }
