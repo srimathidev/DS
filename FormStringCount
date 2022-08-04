@@ -1,0 +1,30 @@
+package client;
+// Count number of strings formed from any a's, 1b and 2c
+public class FormStringCount {
+    public static int countStrings(int n) {
+        int c = 0;
+        //all a's
+        c = 1;
+        
+        //2b OR 2c
+        c = c + (2*n);
+        
+        //2c all a's
+        c = c + (n * (n-1) / 2);
+        
+        //1b AND 1c, all a's
+        c = c + (n * (n-1));
+        
+        //2c AND 1b, all a's
+        c = c + (n * (n-1) * (n-2) / 2);
+        
+        return c;
+        
+    }
+    
+    
+    public static void main(String args[]) {
+        int n = 4;
+        System.out.println(countStrings(n));
+    }
+}
