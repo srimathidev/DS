@@ -1,0 +1,21 @@
+//find all the unique subsets of given number in any order
+class Solution {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> subsets(int[] nums) {
+        if(nums.length == 0)
+            return res;
+        helper(0, new ArrayList<Integer>(), nums);
+        return res;
+    }
+    public List<List<Integer>> helper(int start, ArrayList<Integer> curr, int[] nums)
+    {
+        res.add(new ArrayList<Integer>(curr));
+        for(int i = start; i < nums.length; i++)
+        {
+            curr.add(nums[i]);
+            helper(i+1,curr,nums);
+            curr.remove(curr.size()-1);
+        }
+        return res;
+    }
+}
