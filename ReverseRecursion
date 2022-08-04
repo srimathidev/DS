@@ -1,0 +1,25 @@
+package client;
+//Reverse String using Recursion
+public class ReverseString {
+    
+    public static char[] reverse(char[] str) {
+        int first = 0;
+        int last = str.length;
+        while(first < last) {
+            char tmp = str[first];
+            str[first++] = str[--last];
+            str[last] = tmp;
+            
+        }
+        return str;
+    }
+    
+    public static void main(String[] args) {
+        String str = "helloworld";
+        char[] c = str.toCharArray();
+        c=reverse(c);
+        for(char a: c){
+            System.out.println(a);
+        }
+    }
+}
