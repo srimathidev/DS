@@ -1,0 +1,31 @@
+//recursion and backtracking
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(candidates);
+        comb(0,candidates, target, new ArrayList<Integer>(), result);
+        return result;
+    }
+    public void comb(int start, int[] candidates, int target, ArrayList<Integer> curr, List<List<Integer>> result){
+        //base case
+        if(target == 0){
+            result.add(new ArrayList<Integer>(curr));
+        }
+        
+        //validation
+        if(target < 0){
+            return;
+        }
+        
+        //logic
+        for(int i=start; i<candidates.length; i++){
+            if(i == start || candidates[i] != candidates[i-1]){
+                curr.add(candidates[i]);
+            comb(i+1,candidates, target - candidates[i],curr,result);
+                curr.remove(curr.size()-1);
+            
+            }
+        }
+        
+    }
+}
