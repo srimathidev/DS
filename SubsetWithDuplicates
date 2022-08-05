@@ -1,0 +1,22 @@
+//recursion and backtracking of subsets with duplicates 
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        findSubset(0,new ArrayList<Integer>(),nums,result);
+        return result;
+    }
+    
+    public List<List<Integer>> findSubset(int start, ArrayList<Integer> curr, int[] nums,List<List<Integer>> result){
+        //base case
+        result.add(new ArrayList<Integer>(curr));
+        for(int i = start; i<nums.length;i++){
+            if(i==start || nums[i] != nums[i-1]){
+                curr.add(nums[i]);
+                findSubset(i+1,curr,nums,result);
+                curr.remove(curr.size()-1);
+            }
+        }
+        return result;
+    }
+}
