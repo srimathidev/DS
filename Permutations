@@ -1,0 +1,26 @@
+///recursion and backtracking
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> output = new ArrayList<List<Integer>>();
+        ArrayList<Integer> nums_list = new ArrayList<Integer>();
+        for(int num: nums){
+            nums_list.add(num);
+        }
+        int n = nums.length;
+        backtrack(0,output, nums_list, n);
+    return output;
+    }
+    public List<List<Integer>> backtrack(int first, List<List<Integer>> output, ArrayList<Integer> nums, int n) {
+        if(first == n){
+            output.add(new ArrayList<Integer>(nums));
+        }
+        for(int i = first; i<n;i++){
+            Collections.swap(nums,first,i);
+            backtrack(first+1,output,nums,n);
+            Collections.swap(nums,first,i);
+        }
+        return output;
+    }
+    
+   
+}
