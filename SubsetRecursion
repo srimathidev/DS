@@ -1,21 +1,35 @@
 //find all the unique subsets of given number in any order
-class Solution {
-    List<List<Integer>> res = new ArrayList<List<Integer>>();
-    public List<List<Integer>> subsets(int[] nums) {
+package client;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Subset {
+    static List<List<Integer>> res = new ArrayList<List<Integer>>();
+    public static void main(String[] args) {
+        int nums[] = {1,2,3};
+        List<List<Integer>> output = new ArrayList<>();
+        output = subsets(nums);
+        //System.out.println(output.toString());
+        Stream.of(output.toString())
+                    .forEach(System.out::println);
+    }
+
+    private static List<List<Integer>> subsets(int[] nums) {
         if(nums.length == 0)
             return res;
-        helper(0, new ArrayList<Integer>(), nums);
+        helper(0, new ArrayList<Integer>(),nums);
         return res;
+    
     }
-    public List<List<Integer>> helper(int start, ArrayList<Integer> curr, int[] nums)
-    {
+
+    private static void helper(int start, ArrayList<Integer> curr, int[] nums) {
         res.add(new ArrayList<Integer>(curr));
-        for(int i = start; i < nums.length; i++)
-        {
+        for(int i = start; i<nums.length;i++) {
             curr.add(nums[i]);
             helper(i+1,curr,nums);
             curr.remove(curr.size()-1);
         }
-        return res;
     }
 }
