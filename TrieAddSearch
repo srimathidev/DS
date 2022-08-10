@@ -1,0 +1,55 @@
+class WordDictionary {
+    
+   private class TrieNode {
+        private boolean isWord;
+        private HashMap<Character,TrieNode> child;
+
+        public TrieNode() {
+            isWord = false;
+            child = new HashMap<Character,TrieNode>();
+        }
+    }
+    
+    TrieNode root = new TrieNode();
+    
+    public void addWord(String word) {
+        TrieNode curr = root;
+        for(int i=0;i<word.length();i++){
+            if(!curr.child.containsKey(word.charAt(i))){
+                curr.child.put(word.charAt(i), new TrieNode());
+            }
+            curr = curr.child.get(word.charAt(i));
+        }
+        curr.isWord = true;
+    }
+    
+    public boolean search(String word) {
+        return searchHelper(root, 0, word);
+    }
+    
+    //recursive function
+    public boolean searchHelper(TrieNode node, int pos, String word){
+        //base case
+        if(pos == word.length()) return node.isWord;
+        if(node.child.size() == 0) return false;
+        if(word.charAt(pos) == '.'){
+            for(Character c: node.child.keySet()){
+                if(searchHelper(node.child.get(c), pos+1, word)){
+                    return true;
+                }
+            }
+        }
+        
+        if(!node.child.containsKey(word.charAt(pos))) return false;
+        
+        return searchHelper(node.child.get(word.charAt(pos)), pos+1, word);
+        
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
