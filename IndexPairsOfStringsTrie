@@ -1,0 +1,52 @@
+class Solution {
+    
+    class TrieNode{
+        TrieNode[] child;
+        boolean end;
+        
+        public TrieNode(){
+            child = new TrieNode[26];
+            end = false;
+        }
+    }
+    
+    public int[][] indexPairs(String text, String[] words) {
+        TrieNode trie = new TrieNode();
+        for(String word: words){
+            TrieNode curr = trie;
+            for(char c: word.toCharArray()){
+                if(curr.child[c - 'a'] == null){
+                    curr.child[c-'a'] = new TrieNode();
+                }
+                curr = curr.child[c-'a'];
+            }
+            curr.end = true;
+        }
+        
+        List<int[]> list = new ArrayList<>();
+        for(int i=0;i<text.length();i++){
+            TrieNode curr = trie;
+            char current = text.charAt(i);
+            int j = i;
+            while(curr.child[current - 'a']!=null){
+                curr = curr.child[current - 'a'];
+                if(curr.end){
+                    list.add(new int[]{i,j});
+                }
+                j++;
+                if(j == text.length()) break;
+                else
+                    current = text.charAt(j);
+            }
+            
+        }
+        
+        int[][] res = new int[list.size()][2];
+        int i=0;
+        for(int[] r: list){
+            res[i] = r;
+            i++;
+        }
+        return res;
+    }
+}
