@@ -1,0 +1,88 @@
+class Twitter {
+    
+    Map<Integer, Set<Integer>> following;
+    Map<Integer, List<Tweet>> feed;
+    int time;
+
+    public Twitter() {
+        this.following = new HashMap<>();
+        this.feed = new HashMap<>();
+        this.time = 0;
+    }
+    
+    public void postTweet(int userId, int tweetId) {
+        if(isNewUser(userId)){
+            addUser(userId);
+        }
+        feed.get(userId).add(new Tweet(tweetId, time));
+        ++time;
+        return;
+    }
+    
+    public List<Integer> getNewsFeed(int userId) {
+        if(isNewUser(userId)){
+            addUser(userId);
+        }
+        
+        PriorityQueue<Tweet> minheap = new PriorityQueue<Tweet>((a,b) -> b.timeStamp - a.timeStamp);
+        for(Integer id: following.get(userId)){
+            if(feed.containsKey(id)){
+                for(Tweet tweet: feed.get(id)){
+                    minheap.offer(tweet);
+                }
+            }
+        }
+        
+        List<Integer> userFeed = new ArrayList<Integer>();
+        while(!minheap.isEmpty() && userFeed.size() < 10){
+            userFeed.add(minheap.poll().tweetId);
+        }
+        return userFeed;
+    }
+    
+    public void follow(int followerId, int followeeId) {
+        if(isNewUser(followerId)){
+            addUser(followerId);
+        }
+        following.get(followerId).add(followeeId);
+        return;
+    }
+    
+    public void unfollow(int followerId, int followeeId) {
+        if(!isNewUser(followerId)){
+            following.get(followerId).remove(followeeId);
+        }
+        return;
+    }
+    
+    public boolean isNewUser(int userId){
+        return !following.containsKey(userId);
+    }
+    
+    public void addUser(int userId){
+        following.put(userId, new HashSet<Integer>());
+        following.get(userId).add(userId);
+        
+        feed.put(userId, new ArrayList<Tweet>());
+    }
+    
+    
+    class Tweet {
+        int tweetId;
+        int timeStamp;
+        public Tweet(int tweetId, int timeStamp){
+            this.tweetId = tweetId;
+            this.timeStamp = timeStamp;
+        }
+    }
+    
+}
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter obj = new Twitter();
+ * obj.postTweet(userId,tweetId);
+ * List<Integer> param_2 = obj.getNewsFeed(userId);
+ * obj.follow(followerId,followeeId);
+ * obj.unfollow(followerId,followeeId);
+ */
