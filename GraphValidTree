@@ -1,0 +1,39 @@
+class Solution {
+    Set<Integer> set = new HashSet<>();
+    public boolean validTree(int n, int[][] edges) {
+        Map<Integer, Set<Integer>> adj = new HashMap<>();
+        
+        for(int i=0; i<n;i++){
+            adj.put(i, new HashSet());
+        }
+        
+        for(int i=0; i<edges.length;i++){
+            adj.get(edges[i][0]).add(edges[i][1]);
+            adj.get(edges[i][1]).add(edges[i][0]);
+
+        }
+        
+        return dfs(0, -1, adj, set) && set.size() == n;
+    }
+    
+    public boolean dfs(int curr, int prev, Map<Integer, Set<Integer>> adj, Set<Integer> visited){
+        
+        if(visited.contains(curr))
+            return false;
+        
+        visited.add(curr);
+        
+        for(int neighbor: adj.get(curr)){
+            if(neighbor == prev){
+                continue;
+            }
+            if(!dfs(neighbor, curr, adj, visited)){
+                return false;
+            }
+        }
+ 
+        return true;
+    }
+    
+    
+}
