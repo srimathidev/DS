@@ -1,5 +1,18 @@
 //Amazon
 
+Consider n packages, where packageWeights[i] represents the weight of the i th package, You can combine i th and i+1 th package if packageWeights[i] <packageWeights[i+1] and then discard the i th package. After this operation number of packages reduces by 1 and weight of i+1 th package increases by packageWeights[i]. You can merge as many times as you want. Find the max possible weight of the package that can be achieved after any sequence of merge operations
+
+Eg packageWeights =[2,9,10,3, 7] optimal order:
+
+iteration 1 combine packages at index 2 and 3 ->new packageWeights =[2,19,3,7]
+
+iteration 2 combine packages at index 1 and 2 ->new packageWeights =[21,3,7]
+
+iteration 3 combine packages at index 2 and 3 ->new packageWeights =[21,10]
+
+No more packages can be combined. The weight of the heaviest package is 21.
+
+//Solution
 package client;
 
 public class PackageWeights {
