@@ -1,0 +1,27 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(-1);
+        int maxArea = 0;
+        int length = heights.length;
+        
+        
+        for(int i=0;i<length;i++){
+            
+        //until stack top element is not -1 and top >= current
+            while(stack.peek() != -1 && heights[stack.peek()] >= heights[i]){
+                int height = heights[stack.pop()];
+                int width = i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+        //else push current index of element
+            stack.push(i); 
+        }
+        while(stack.peek() != -1 ){
+                int height = heights[stack.pop()];
+                int width = length - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+        return maxArea;
+    }
+}
