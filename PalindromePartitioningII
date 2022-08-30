@@ -1,0 +1,41 @@
+class Solution {
+    
+    Integer memoCuts[];
+    Boolean[][] memoPal;
+    
+    public int minCut(String s) {
+        memoCuts = new Integer[s.length()];
+        memoPal = new Boolean[s.length()][s.length()];
+        return findMinimumCut(s, 0, s.length() - 1, s.length() - 1);
+    }
+    
+    
+    public int findMinimumCut(String s, int start, int end, int minCut){
+        if((start == end) || isPalindrome(s, start, end)){
+            return 0;
+        }
+        
+        if(memoCuts[start] !=null){
+            return memoCuts[start];
+        }
+        
+        for(int curr = start; curr <= end; curr++){
+            if(isPalindrome(s,start,curr)){
+                minCut = Math.min(minCut, 1 + findMinimumCut(s, curr+1, end, minCut));
+            }
+        }
+        return memoCuts[start] = minCut;
+    }
+    
+    public boolean isPalindrome(String s, int start, int end){
+        while(start >= end){
+            return true;
+         }
+        if(memoPal[start][end] != null){
+            return memoPal[start][end];
+        }
+        
+        return memoPal[start][end] = s.charAt(start)==s.charAt(end) && isPalindrome(s,start+1, end-1);
+            
+        }  
+}
