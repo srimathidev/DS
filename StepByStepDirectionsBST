@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        TreeNode ancestor = LCA(root, startValue, destValue);
+        
+        StringBuilder left = getDir(ancestor,startValue,false);
+        StringBuilder right = getDir(ancestor,destValue,true);
+        
+        
+        return left.toString() + right.reverse().toString();
+    }
+    
+    public TreeNode LCA(TreeNode root, int start, int end){
+        if(root == null || root.val == start || root.val == end) return root;
+        
+        TreeNode left = LCA(root.left,start,end);
+        TreeNode right = LCA(root.right,start,end);
+        
+        if(left == null) return right;
+        if(right == null) return left;
+        
+        
+        return root;
+    }
+    
+    public StringBuilder getDir(TreeNode root, int dest, boolean flag){
+        if(root == null) return null;
+        if(root.val == dest) return new StringBuilder();
+        
+        StringBuilder left = getDir(root.left, dest, flag);
+        
+        if(left !=null){
+            left.append(!flag ? "U" : "L");
+            return left;
+        }
+        
+        
+        StringBuilder right = getDir(root.right,dest,flag);
+        if(right!=null){
+            right.append(!flag ? "U" : "R");
+            return right;
+        }
+        return null;
+    }
+    
+}
