@@ -1,0 +1,47 @@
+class Solution {
+    int[][] dir = {{0,1},{1,0},{0,-1},{-1,0}};
+    public int longestIncreasingPath(int[][] matrix) {
+        if(matrix==null || matrix.length==0 || matrix[0].length==0){
+            return 0;
+        }
+        
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        int[][] dp = new int[row][col];
+        
+        int result = 0;
+        
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                result = Math.max(result, dfs(matrix, i,j,dp));
+            }
+        }
+        
+        return result;
+        
+    }
+    
+    
+    public int dfs(int[][] matrix, int row, int col, int[][] dp){
+                
+        if(dp[row][col]!=0){
+            return dp[row][col];
+        }
+        
+        for(int[] d: dir){
+            int x = row+d[0];
+            int y = col+d[1];
+            
+            if(x>=0 && y>=0 && x<matrix.length && y<matrix[0].length && matrix[x][y] > matrix[row][col]){
+                dp[row][col] = Math.max(dp[row][col], dfs(matrix,x,y,dp));
+                System.out.println(row+" "+col+" "+dp[row][col]);
+            }
+            
+        }
+        
+        return dp[row][col] = dp[row][col] + 1;
+       
+    }
+    
+}
