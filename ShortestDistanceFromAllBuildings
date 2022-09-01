@@ -1,0 +1,88 @@
+class Solution {
+    int[] rowsDir = {1,-1,0,0};
+    int[] colsDir = {0,0,1,-1};
+    public int shortestDistance(int[][] grid) {
+        if(grid == null || grid[0].length == 0) return -1;
+        
+        int rows = grid.length; int cols = grid[0].length;
+        
+        int[][] canReach = new int[rows][cols];
+        int[][] dist = new int[rows][cols];
+        
+        int totalBuildings =0;
+        
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(grid[i][j] == 1){
+                    totalBuildings++;
+                    if(!bfs(grid, i, j, canReach, dist)) return -1;
+                }
+            }
+        }
+        
+        int minDist = Integer.MAX_VALUE;
+        
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(canReach[i][j] == totalBuildings &&
+                  dist[i][j] < minDist ){
+                    minDist = dist[i][j];
+                }
+            }
+        }
+        
+        return minDist == Integer.MAX_VALUE ? -1 : minDist;
+    }
+    
+    public boolean bfs(int[][] grid, int row, int col, int[][] canReach, int[][] dist){
+        
+        int rows = grid.length; int cols = grid[0].length;
+        
+        boolean[][] visited = new boolean[rows][cols];
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{row,col});
+        visited[row][col] = true;
+        
+        int d=0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            d++;
+            for(int i=0;i<size;i++){
+                int[] curr = q.poll();
+                int r = curr[0];
+                int c = curr[1];
+                for(int j=0;j<4;j++){
+                    int rr = rowsDir[j] + r;
+                    int cc = colsDir[j] + c; 
+                    
+                    if(!isValid(grid, rr, cc, visited)) continue;
+                    
+                    if(grid[rr][cc] == 0){
+                        dist[rr][cc] += d;
+                        canReach[rr][cc]++;
+                        q.offer(new int[]{rr,cc});
+                    }
+                    visited[rr][cc] = true;
+                }
+            }
+        }
+        
+        for(int i= 0; i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(!visited[i][j] && grid[i][j] == 1){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    public boolean isValid(int[][] grid, int row, int col, boolean[][] visited){
+        if(row > grid.length-1 || col > grid[0].length-1 || row < 0 || col <0 || visited[row][col]) return false;
+        if(grid[row][col] == 2) return false;
+        return true;
+    }
+    
+}
