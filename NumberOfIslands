@@ -1,4 +1,4 @@
-//recursion
+//recursion DFS
 class Solution {
     public int numIslands(char[][] grid) {
         int count = 0;
@@ -8,24 +8,24 @@ class Solution {
             {
                 if(grid[i][j] == '1'){
                     count++;
-                    callBFS(i,j,grid);
+                    callDFS(i,j,grid);
                 }
             }
         }
         return count;
     }
     
-    public void callBFS(int i, int j, char[][] grid){
+    public void callDFS(int i, int j, char[][] grid){
     
         //base case and boundary check
         if(i<0 || i>=grid.length || j<0 || j>=grid[i].length || grid[i][j] !='1') return;
         
         //recursion logic and backtracking
         grid[i][j] = '0';
-        callBFS(i+1,j,grid);
-        callBFS(i-1,j,grid);
-        callBFS(i,j+1,grid);
-        callBFS(i,j-1,grid);
+        callDFS(i+1,j,grid);
+        callDFS(i-1,j,grid);
+        callDFS(i,j+1,grid);
+        callDFS(i,j-1,grid);
         
     }
 }
