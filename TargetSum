@@ -1,0 +1,40 @@
+class Solution {
+    int total;
+    public int findTargetSumWays(int[] nums, int target) {
+        total = Arrays.stream(nums).sum();
+        
+        int[][] memo = new int[nums.length][2*total+1];
+        
+        for(int[] n:memo){
+            Arrays.fill(n, Integer.MIN_VALUE);
+        }
+        
+        return calculate(nums,0,0,target,memo);
+       
+    }
+    
+    
+    public int calculate(int[] nums, int start, int sum, int target, int[][] memo){
+        //base case
+        if(start == nums.length){
+            if(sum == target){
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else{
+            
+            if(memo[start][sum+total] != Integer.MIN_VALUE){
+                return memo[start][sum+total];
+            }
+            
+            int add = calculate(nums, start+1, sum + nums[start], target, memo);
+            int sub = calculate(nums, start+1, sum-nums[start], target,memo);
+            memo[start][sum+total] = add + sub;
+            return memo[start][sum+total];
+        }
+    }
+}
