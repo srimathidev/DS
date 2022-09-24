@@ -1,0 +1,24 @@
+class Solution {
+    char[] str, word;
+    int ans = 0;
+    public int numMatchingSubseq(String s, String[] words) {
+        str = s.toCharArray();
+        for(String w: words){
+            if(subSeq(w)){
+                ans++;
+            }
+        }
+        return ans;
+    }
+    
+    public boolean subSeq(String words){
+        int i=0;
+        word = words.toCharArray();
+        for(char s: str){
+            if(i < word.length && s == word[i]){
+                i++;
+            }
+        }
+        return(i == word.length);
+    }
+}
