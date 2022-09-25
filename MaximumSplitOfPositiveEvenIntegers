@@ -1,0 +1,32 @@
+class Solution {
+    public List<Long> maximumEvenSplit(long finalSum) {
+        
+        //check whether it is even
+        if(finalSum % 2 != 0 ) {
+            return new ArrayList<>();
+        }
+        
+        long sum=0,nextSum=2;
+        List<Long> result = new ArrayList<>();
+        
+        while(true){
+        if(sum+nextSum <= finalSum){
+            result.add(nextSum);
+            sum+=nextSum;
+        }
+        else break;
+        
+        nextSum+=2;
+        
+        if(sum==finalSum){
+            return result;
+        }
+        
+        }
+        
+        sum -= result.get(result.size()-1);
+        result.remove(result.size()-1);
+        result.add(finalSum-sum);
+        return result;
+    }
+}
