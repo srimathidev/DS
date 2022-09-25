@@ -1,0 +1,40 @@
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int min = Integer.MAX_VALUE;
+        
+        Integer[][] memo = new Integer[matrix.length][matrix[0].length];
+        
+        
+        for(int i=0;i<matrix.length;i++){
+            min = Math.min(min, findPathSum(matrix,0,i,memo));
+        }
+        
+        return min;
+    }
+    
+    
+    public int findPathSum(int[][] matrix, int row, int col, Integer[][] memo){
+        
+        if(col <0 || col == matrix.length){
+            return Integer.MAX_VALUE;
+        }
+        
+        if(row == matrix.length - 1){
+            return matrix[row][col];
+        }
+        
+        if(memo[row][col] != null){
+            return memo[row][col];
+        }
+        
+        int left = findPathSum(matrix, row+1,col,memo);
+        int middle = findPathSum(matrix, row+1,col+1,memo);
+        int right = findPathSum(matrix, row+1, col-1, memo);
+        
+        memo[row][col] = Math.min(left,Math.min(middle,right)) + matrix[row][col];
+        
+        return memo[row][col];
+        
+        
+    }
+}
