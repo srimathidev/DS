@@ -1,0 +1,61 @@
+class Solution {
+    
+    private int UNKNOWN = 0;
+    private int IN_PROGRESS = 1;
+    private int COOKED = 2;
+    
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        Map<String,Integer> recipeStatus = new HashMap<>();
+        Map<String, List<String>> preReqs = new HashMap<>();
+        
+        for(int i=0;i<recipes.length;i++){
+            recipeStatus.put(recipes[i],UNKNOWN);
+            preReqs.put(recipes[i],ingredients.get(i));
+        }
+        
+        
+        for(String supply: supplies){
+            recipeStatus.put(supply,COOKED);
+            
+        }
+        
+        List<String> result = new ArrayList<>();
+        
+        for(String recipe: recipes){
+            dfs(recipeStatus, preReqs, recipe, result);
+        }
+
+        return result;
+        
+    }
+    
+    public boolean dfs(Map<String,Integer> recipeStatus, Map<String, List<String>> preReqs, String recipe, List<String> result){
+        
+        
+        if(!recipeStatus.containsKey(recipe)){
+            return false;
+        }
+        
+        if(recipeStatus.get(recipe) == IN_PROGRESS){
+            return false;
+        }
+        
+        if(recipeStatus.get(recipe) == COOKED){
+            return true;
+        }
+        
+        recipeStatus.put(recipe,IN_PROGRESS);
+        
+        for(String ingredient: preReqs.get(recipe)){
+            if(!dfs(recipeStatus, preReqs, ingredient, result)){
+                return false;
+            }
+        }
+        
+        
+        recipeStatus.put(recipe, COOKED);
+        result.add(recipe);
+        return true;
+    }
+    
+}
