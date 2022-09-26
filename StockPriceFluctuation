@@ -1,0 +1,51 @@
+class StockPrice {
+    
+    
+    Map<Integer,Integer> stockMap;
+    int latestTime;
+    
+    TreeMap<Integer,Integer> countMap;
+    public StockPrice() {
+        latestTime = 0;
+        stockMap = new HashMap<>();
+        countMap = new TreeMap<>();
+    }
+    
+    public void update(int timestamp, int price) {
+
+        latestTime = Math.max(latestTime,timestamp);
+        
+        if(stockMap.containsKey(timestamp)){
+            int oldPrice = stockMap.get(timestamp);
+            countMap.put(oldPrice, countMap.get(oldPrice) - 1);
+            
+            if(countMap.get(oldPrice) == 0){
+                countMap.remove(oldPrice);
+            }
+        }
+        
+        stockMap.put(timestamp,price);
+        countMap.put(price, countMap.getOrDefault(price,0) + 1);
+    }
+    
+    public int current() {
+        return stockMap.get(latestTime);
+    }
+    
+    public int maximum() {
+        return countMap.lastKey();
+    }
+    
+    public int minimum() {
+        return countMap.firstKey();
+    }
+}
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice obj = new StockPrice();
+ * obj.update(timestamp,price);
+ * int param_2 = obj.current();
+ * int param_3 = obj.maximum();
+ * int param_4 = obj.minimum();
+ */
