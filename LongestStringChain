@@ -1,3 +1,4 @@
+//Top Down DP with Recursion + Memoization
 class Solution {
     public int longestStrChain(String[] words) {
         Map<String,Integer> memo = new HashMap<>();
@@ -43,3 +44,37 @@ class Solution {
     }
     
 }
+
+//Bottom up DP
+class Solution {
+    public int longestStrChain(String[] words) {
+        Map<String,Integer> dp = new HashMap<>();
+        
+        Arrays.sort(words, (a,b) -> a.length() - b.length());
+        
+        int finalCount = 1;
+        
+        for(String word: words){
+            
+            int min = 1;
+            
+            for(int i=0; i<word.length();i++){
+                
+                StringBuilder sb = new StringBuilder(word);
+                sb.deleteCharAt(i);
+                String newWord = sb.toString();
+                int prev = dp.getOrDefault(newWord, 0);
+                min = Math.max(min, prev+1);
+                
+            }
+            
+            dp.put(word,min);
+            
+            finalCount = Math.max(finalCount, min);
+            
+            
+        }
+        return finalCount;
+    }
+}
+
