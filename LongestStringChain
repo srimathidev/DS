@@ -1,0 +1,45 @@
+class Solution {
+    public int longestStrChain(String[] words) {
+        Map<String,Integer> memo = new HashMap<>();
+        Set<String> wordSet = new HashSet<>();
+        Collections.addAll(wordSet, words);
+        int ans = 0;
+        
+        for(String word: words){
+            ans = Math.max(dfs(wordSet, memo, word),ans);
+        
+        }
+        return ans;
+    }
+    
+    public int dfs(Set<String> wordSet, Map<String,Integer> memo, String currentWord){
+        
+        if(memo.containsKey(currentWord)){
+            return memo.get(currentWord);
+        }
+        
+        
+        int max = 1;
+        StringBuilder sb = new StringBuilder(currentWord);
+        
+        for(int i=0; i<currentWord.length();i++){
+            
+            sb.deleteCharAt(i);
+            String newWord = sb.toString();
+            
+            
+            if(wordSet.contains(newWord)){
+                int currentLength = 1 + dfs(wordSet, memo, newWord);
+                max = Math.max(max,currentLength);
+            }
+            
+            sb.insert(i, currentWord.charAt(i));
+            
+        }
+        
+        memo.put(currentWord, max);
+        
+        return max;
+    }
+    
+}
