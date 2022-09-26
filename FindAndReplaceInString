@@ -1,0 +1,35 @@
+class Solution {
+    public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
+        
+        Map<Integer,Integer> wordMap = new HashMap<>();
+        
+        for(int i=0;i<indices.length;i++){
+            wordMap.put(indices[i],i);
+        }
+        
+    StringBuilder result = new StringBuilder();
+        
+        for(int i=0;i<s.length();i++){
+            if(!wordMap.containsKey(i)){
+                result.append(s.charAt(i));
+                continue;
+            }
+            
+            int index = wordMap.get(i);
+            String source = sources[index];
+            String substr = s.substring(i,i+source.length());
+            
+            if(!substr.equals(source)){
+                result.append(substr);
+            }
+            else
+            {
+                result.append(targets[index]);
+            }
+            
+            i += source.length()-1;
+        }
+        
+        return result.toString();
+    }
+}
