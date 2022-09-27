@@ -1,3 +1,8 @@
+// -1 means wall/obstacle
+// 0 means gate
+// infinity means empty room
+
+
 class Solution {
     
     int[][] dirs = {{1,0}, {0,1}, {-1,0}, {0,-1}};
