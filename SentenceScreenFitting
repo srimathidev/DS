@@ -1,0 +1,38 @@
+class Solution {
+    public int wordsTyping(String[] sentence, int rows, int cols) {
+        int[] nextIndex = new int[sentence.length];
+        int[] times = new int[sentence.length];
+        
+        for(int i=0;i<sentence.length;i++){
+            
+            int curLen = 0;
+            int curr = i;
+            int time = 0;
+            
+            while(curLen + sentence[curr].length() <= cols){
+                curLen += sentence[curr++].length() + 1;
+                
+                if(curr == sentence.length){
+                    curr = 0;
+                    time++;
+                }
+                
+            }
+            
+            nextIndex[i] = curr;
+            times[i] = time;
+            
+        }
+        
+        
+        int result = 0;
+        int curr = 0;
+        
+        for(int i=0;i<rows;i++){
+            result += times[curr];
+            curr = nextIndex[curr];
+        }
+        
+        return result;
+    }
+}
