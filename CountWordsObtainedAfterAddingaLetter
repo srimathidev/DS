@@ -1,0 +1,36 @@
+class Solution {
+    public int wordCount(String[] startWords, String[] targetWords) {
+        Set<String> hs1 = new HashSet<>();
+        List<String> hs2 = new ArrayList<>();
+        
+        
+        for(String str1: startWords){
+            char[] c1 = str1.toCharArray();
+            Arrays.sort(c1);
+            hs1.add(String.valueOf(c1));
+        }
+        
+         for(String str2: targetWords){
+            char[] c2 = str2.toCharArray();
+            Arrays.sort(c2);
+            hs2.add(String.valueOf(c2));
+        }
+        
+        int res=0;
+        for(String str: hs2){
+            for(int i=0;i<str.length();i++){
+                String prefix = str.substring(0,i);
+                //System.out.println("pre"+prefix);
+                String suffix = str.substring(i+1);
+                //System.out.println("suf"+suffix);
+                String newStr = prefix + suffix;
+                //System.out.println("new"+newStr);
+                if(hs1.contains(newStr)){
+                    res++;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+}
