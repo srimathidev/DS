@@ -1,0 +1,50 @@
+Solution 1:
+class Solution {
+    int strStr(String haystack, String needle) {
+        if(haystack.length() < needle.length()){
+            return -1;
+        }
+        int j;
+        for(int i=0;i<=haystack.length()-needle.length();i++){
+            j=0;
+            while(j<needle.length() && haystack.charAt(i+j) == needle.charAt(j)){
+                j++;
+                
+            }
+            if(j==needle.length()){
+                    return i;
+                }
+        }
+        return -1;
+    }
+}
+
+Solution 2:
+class Solution {
+   public static int strStr(String haystack, String needle) {
+        if(haystack.length() < needle.length()){
+            return -1;
+        }
+        boolean flag = false;
+        int ans = -1;
+    for(int i=0;i<haystack.length()-needle.length()+1;i++){
+        if(haystack.substring(i,i+needle.length()).equals(needle) && !flag)
+        {
+            ans=i;
+            flag = true;
+            break;
+        }
+        
+    }
+
+    if(flag)
+    return ans;
+    else
+    return -1;
+
+
+    }
+    
+
+    
+}
